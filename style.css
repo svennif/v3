@@ -1,3 +1,7 @@
+:root {
+	--primary-color: '#2C3E50';
+}
+
 html,
 body {
 	margin: 0;
@@ -6,7 +10,16 @@ body {
 	height: 100%;
 }
 
-.header {
-	max-width: 380px;
+body {
+	display: flex;
+	flex-direction: row;
+}
+
+header {
+	max-width: 23.75rem;
 	width: 100%;
+	padding-top: 3.75rem;
+	padding-left: 2.5rem;
+	padding-bottom: 2.5rem;
+	padding-right: auto;
 }
