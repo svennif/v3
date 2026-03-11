@@ -1,37 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="style.css" />
-		<title>Sven Ingar Frantzen</title>
-		<script type="application/ld+json">
-			{
-				"@context": "https://schema.org",
-				"@type": "WebSite",
-				"name": "Sven Ingar Frantzen's portfolio",
-				"url": "https://svenni.dev/"
-			}
-		</script>
-	</head>
-	<body>
-		<header>
-			<div>
-				<h2>Sven Ingar Frantzen</h2>
-				<p>Turning coffee into code since 2021.</p>
-			</div>
-			<nav>
-				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Projects</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
-				</ul>
-			</nav>
-		</header>
-		<main>
-			<h1>Hello! My name is Sven Ingar Frantzen, and I am a UX/UI designer and frontend developer, currently working for BIBS ApS in Copenhagen.</h1>
-		</main>
-		<script src="index.js"></script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sven Ingar Frantzen | Shopify & Fullstack Developer</title>
+    <meta name="description" content="Sven Ingar Frantzen is a Shopify and fullstack developer building fast, accessible storefronts with Shopify Plus, Liquid, and GraphQL." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://svenni.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sven Ingar Frantzen | Shopify & Fullstack Developer" />
+    <meta property="og:description" content="Portfolio of Sven Ingar Frantzen, a Shopify and fullstack developer focused on fast, accessible e-commerce experiences." />
+    <meta property="og:url" content="https://svenni.dev/" />
+    <meta property="og:image" content="https://svenni.dev/assets/sven-ingar-frantzen.avif" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sven Ingar Frantzen | Shopify & Fullstack Developer" />
+    <meta name="twitter:description" content="Portfolio of Sven Ingar Frantzen, a Shopify and fullstack developer focused on fast, accessible e-commerce experiences." />
+    <meta name="twitter:image" content="https://svenni.dev/assets/sven-ingar-frantzen.avif" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Sven Ingar Frantzen Portfolio",
+            "url": "https://svenni.dev/"
+          },
+          {
+            "@type": "Person",
+            "name": "Sven Ingar Frantzen",
+            "url": "https://svenni.dev/",
+            "jobTitle": "Shopify & Fullstack Developer",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "BIBS"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="header-info">
+        <a class="site-title" href="#home">Sven Ingar Frantzen</a>
+        <p>Turning coffee into code since 2021.</p>
+      </div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="social-media-wrapper">
+        <ul>
+          <li><a href="">Github</a></li>
+          <li><a href="">Linkedin</a></li>
+          <li><a href="">Email</a></li>
+        </ul>
+      </div>
+    </header>
+    <main>
+      <section class="main-section" id="home">
+        <h1>Sven Ingar Frantzen</h1>
+        <p class="hero-subtitle">Crafting storefronts that are fast, accessible, and built to last.</p>
+        <p class="hero-description">I'm a Shopify developer with 3+ years of experience turning e-commerce ideas into fast, accessible, and polished storefronts. I currently work at BIBS, where I get to solve interesting problems daily using Shopify Plus, GraphQL, and Liquid, and I genuinely care about the details most people don't notice, like load times, SEO, and making sure every user has a great experience.</p>
+        <div class="scroll-indicator">
+          <span>Scroll</span>
+        </div>
+      </section>
+      <section class="main-section" id="projects">
+        <h2>Projects</h2>
+      </section>
+      <section class="main-section" id="about">
+        <h2>About</h2>
+      </section>
+      <section class="main-section" id="contact">
+        <h2>Contact</h2>
+      </section>
+    </main>
+  </body>
 </html>
