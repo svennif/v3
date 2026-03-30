@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sven Ingar Frantzen | Shopify & Fullstack Developer</title>
+    <title>Sven I. Frantzen | Shopify & Fullstack Developer</title>
     <meta name="description" content="Sven Ingar Frantzen is a Shopify and fullstack developer building fast, accessible storefronts with Shopify Plus, Liquid, and GraphQL." />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://svenni.dev/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sven Ingar Frantzen | Shopify & Fullstack Developer" />
+    <meta property="og:title" content="Sven I. Frantzen | Shopify & Fullstack Developer" />
     <meta property="og:description" content="Portfolio of Sven Ingar Frantzen, a Shopify and fullstack developer focused on fast, accessible e-commerce experiences." />
     <meta property="og:url" content="https://svenni.dev/" />
     <meta property="og:image" content="https://svenni.dev/assets/sven-ingar-frantzen.avif" />
@@ -41,17 +41,24 @@
     </script>
   </head>
   <body>
-    <header>
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-hidden="true" />
+    <header class="mobile-navbar">
+      <label for="menu-toggle" class="menu-toggle-label" aria-label="Toggle menu"><span class="label-open">Menu</span><span class="label-close">Close</span></label>
+      <a href="#home" class="navbar-title">Sven Ingar Frantzen</a>
+      <span class="navbar-spacer" aria-hidden="true"></span>
+    </header>
+    <label for="menu-toggle" class="menu-overlay" aria-hidden="true"></label>
+    <aside class="sidebar">
       <div class="header-info">
-        <a class="site-title" href="#home">Sven Ingar Frantzen</a>
+        <a class="site-title" href="/">Sven Ingar Frantzen</a>
         <p>Turning coffee into code since 2021.</p>
       </div>
       <nav aria-label="Primary">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#home" onclick="document.getElementById('menu-toggle').checked = false">Home</a></li>
+          <li><a href="#projects" onclick="document.getElementById('menu-toggle').checked = false">Projects</a></li>
+          <li><a href="#about" onclick="document.getElementById('menu-toggle').checked = false">About</a></li>
+          <li><a href="#contact" onclick="document.getElementById('menu-toggle').checked = false">Contact</a></li>
         </ul>
       </nav>
       <div class="social-media-wrapper">
@@ -61,14 +68,14 @@
           <li><a href="">Email</a></li>
         </ul>
       </div>
-    </header>
+    </aside>
     <main>
       <section class="main-section" id="home">
         <h1>Sven Ingar Frantzen</h1>
         <p class="hero-subtitle">Crafting storefronts that are fast, accessible, and built to last.</p>
         <p class="hero-description">I'm a Shopify developer with 3+ years of experience turning e-commerce ideas into fast, accessible, and polished storefronts. I currently work at BIBS, where I get to solve interesting problems daily using Shopify Plus, GraphQL, and Liquid, and I genuinely care about the details most people don't notice, like load times, SEO, and making sure every user has a great experience.</p>
         <div class="scroll-indicator">
-          <span>Scroll</span>
+          <a href="#projects">Scroll to see more</a>
         </div>
       </section>
       <section class="main-section" id="projects">
