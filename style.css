@@ -134,7 +134,7 @@ main {
 
 .hero-description {
   margin-top: 1rem;
-  font-size: clamp(1.125rem, 1.5vw, 1.3rem);
+  font-size: clamp(1.125rem, 1.5vw, 1.35rem);
 }
 
 .main-section {
