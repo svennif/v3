@@ -82,6 +82,9 @@ main {
   padding-bottom: 2.5rem;
   box-sizing: border-box;
   background: var(--color-clouds);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   & ul {
     margin-top: 3rem;
@@ -306,5 +309,21 @@ main {
 
   main {
     padding-top: 5rem;
+  }
+}
+
+#projects {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  & .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    & .project-list-item {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

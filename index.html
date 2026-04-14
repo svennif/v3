@@ -49,18 +49,20 @@
     </header>
     <label for="menu-toggle" class="menu-overlay" aria-hidden="true"></label>
     <aside class="sidebar">
-      <div class="header-info">
-        <a class="site-title" href="/">Sven Ingar Frantzen</a>
-        <p>Turning coffee into code since 2021.</p>
+      <div class="info-wrapper">
+        <div class="header-info">
+          <a class="site-title" href="/">Sven Ingar Frantzen</a>
+          <p>Turning coffee into code since 2021.</p>
+        </div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="#home" onclick="document.getElementById('menu-toggle').checked = false">Home</a></li>
+            <li><a href="#projects" onclick="document.getElementById('menu-toggle').checked = false">Projects</a></li>
+            <li><a href="#about" onclick="document.getElementById('menu-toggle').checked = false">About</a></li>
+            <li><a href="#contact" onclick="document.getElementById('menu-toggle').checked = false">Contact</a></li>
+          </ul>
+        </nav>
       </div>
-      <nav aria-label="Primary">
-        <ul>
-          <li><a href="#home" onclick="document.getElementById('menu-toggle').checked = false">Home</a></li>
-          <li><a href="#projects" onclick="document.getElementById('menu-toggle').checked = false">Projects</a></li>
-          <li><a href="#about" onclick="document.getElementById('menu-toggle').checked = false">About</a></li>
-          <li><a href="#contact" onclick="document.getElementById('menu-toggle').checked = false">Contact</a></li>
-        </ul>
-      </nav>
       <div class="social-media-wrapper">
         <ul>
           <li><a href="">Github</a></li>
@@ -80,9 +82,19 @@
       </section>
       <section class="main-section" id="projects">
         <h2>Projects</h2>
-        <div>
-          <h3>BIBS</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quidem soluta culpa laboriosam minus sequi cupiditate maxime porro neque veniam earum, voluptatum molestias officia adipisci autem optio enim reiciendis dignissimos.</p>
+        <div class="project-list">
+          <div class="project-list-item">
+            <h3>BIBS</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quidem soluta culpa laboriosam minus sequi cupiditate maxime porro neque veniam earum, voluptatum molestias officia adipisci autem optio enim reiciendis dignissimos.</p>
+          </div>
+          <div class="project-list-item">
+            <h3>BIBS</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quidem soluta culpa laboriosam minus sequi cupiditate maxime porro neque veniam earum, voluptatum molestias officia adipisci autem optio enim reiciendis dignissimos.</p>
+          </div>
+          <div class="project-list-item">
+            <h3>BIBS</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quidem soluta culpa laboriosam minus sequi cupiditate maxime porro neque veniam earum, voluptatum molestias officia adipisci autem optio enim reiciendis dignissimos.</p>
+          </div>
         </div>
       </section>
       <section class="main-section" id="about">
