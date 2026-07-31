@@ -1,5 +1,74 @@
 :root {
-  
+  color-scheme: dark;
+  --background: #24273a;
+  --surface: #363a4f;
+  --text: #cad3f5;
+  --accent: #f5bde6;
+  --border: #494d64;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --background: #eff1f5;
+  --surface: #e6e9ef;
+  --text: #4c4f69;
+  --accent: #8839ef;
+  --border: #bcc0cc;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font-jetbrains-mono);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.theme-menu {
+  z-index: 1;
+  right: 0;
+  padding: 0.25rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.theme-menu[hidden] {
+  display: none;
+}
+
+.theme-menu button {
+  display: block;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.theme-menu button[aria-checked='true'] {
+  color: var(--accent);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  translate: 0 -200%;
+  border-radius: 0.25rem;
+  border-color: var(--background);
+  background-color: var(--accent  );
+  color: var(--background);
+}
+
+.skip-link:focus {
+  translate: 0;
 }
 
 .blinking {
@@ -9,7 +78,16 @@
     blink 0.5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 10px solid #f2d5cf;
+  border-right: 0.625rem solid var(--accent);
+}
+
+[data-theme='dark'] .astro-code,
+[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 /* Animation */

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 
 interface Props {
@@ -42,10 +43,41 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#24273a" />
+    <Font cssVariable="--font-jetbrains-mono" preload={[{ weight: 400 }]} />
+
+    <script is:inline>
+      (() => {
+        let preference = 'dark';
+
+        try {
+          const storedPreference = localStorage.getItem('theme');
+
+          if (storedPreference === 'light' || storedPreference === 'system') {
+            preference = storedPreference;
+          }
+        } catch {
+          // Keep dark mode as the default if storage is unavailable.
+        }
+
+        const theme =
+          preference === 'system'
+            ? matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark'
+            : preference;
+
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = theme;
+
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        themeColor?.setAttribute('content', theme === 'dark' ? '#24273a' : '#eff1f5');
+      })();
+    </script>
 
     <title>{title}</title>
 

@@ -1,5 +1,125 @@
 <header class="site-header">
-  <a class="site-logo blinking" href="/">
-    svenni.dev
-  </a>
+  <a class="site-logo blinking" href="/"> svenni.dev </a>
+  <div>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/work/">Work</a>
+        </li>
+        <li>
+          <a href="/work/">About</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="theme-picker">
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-controls="theme-menu"
+      >
+        Theme: Dark
+      </button>
+      <div class="theme-menu" id="theme-menu" role="menu" hidden>
+        <button type="button" role="menuitemradio" aria-checked="true" data-theme-value="dark">Dark</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-value="light">Light</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-theme-value="system">System default</button>
+      </div>
+    </div>
+  </div>
 </header>
+
+<script>
+  type Theme = 'dark' | 'light';
+  type ThemePreference = Theme | 'system';
+
+  const themePicker = document.querySelector<HTMLElement>('.theme-picker');
+  const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const themeMenu = document.querySelector<HTMLElement>('.theme-menu');
+  const themeOptions = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-theme-value]'));
+  const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
+
+  const resolveTheme = (preference: ThemePreference): Theme =>
+    preference === 'system' ? (systemTheme.matches ? 'light' : 'dark') : preference;
+
+  const setPreference = (preference: ThemePreference) => {
+    const theme = resolveTheme(preference);
+
+    document.documentElement.dataset.themePreference = preference;
+    document.documentElement.dataset.theme = theme;
+
+    if (themeToggle) {
+      const label = preference === 'system' ? 'System default' : preference[0].toUpperCase() + preference.slice(1);
+      themeToggle.textContent = `Theme: ${label}`;
+    }
+
+    themeOptions.forEach((option) => {
+      option.setAttribute('aria-checked', String(option.dataset.themeValue === preference));
+    });
+
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      'content',
+      theme === 'dark' ? '#24273a' : '#eff1f5',
+    );
+  };
+
+  const closeMenu = () => {
+    if (themeMenu && themeToggle) {
+      themeMenu.hidden = true;
+      themeToggle.setAttribute('aria-expanded', 'false');
+    }
+  };
+
+  const initialPreference = document.documentElement.dataset.themePreference;
+  setPreference(initialPreference === 'light' || initialPreference === 'system' ? initialPreference : 'dark');
+
+  themeToggle?.addEventListener('click', () => {
+    if (!themeMenu) return;
+
+    const willOpen = themeMenu.hidden;
+    themeMenu.hidden = !willOpen;
+    themeToggle.setAttribute('aria-expanded', String(willOpen));
+
+    if (willOpen) {
+      themeOptions.find((option) => option.getAttribute('aria-checked') === 'true')?.focus();
+    }
+  });
+
+  themeOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+      const preference = option.dataset.themeValue as ThemePreference;
+      setPreference(preference);
+      closeMenu();
+      themeToggle?.focus();
+
+      try {
+        localStorage.setItem('theme', preference);
+      } catch {
+        // The selected theme still works for this page if storage is unavailable.
+      }
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!themePicker?.contains(event.target as Node)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !themeMenu?.hidden) {
+      closeMenu();
+      themeToggle?.focus();
+    }
+  });
+
+  systemTheme.addEventListener('change', () => {
+    if (document.documentElement.dataset.themePreference === 'system') {
+      setPreference('system');
+    }
+  });
+</script>
