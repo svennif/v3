@@ -1,0 +1,88 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  robots?: string;
+}
+
+const { title, description, image = '/assets/sven-ingar-frantzen.avif', robots = 'index, follow' } = Astro.props;
+
+const baseUrl = Astro.site ?? Astro.url.origin;
+
+const canonicalUrl = new URL(Astro.url.pathname, baseUrl);
+const socialImageUrl = new URL(image, baseUrl);
+
+const isHomepage = Astro.url.pathname === '/';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'Sven Ingar Frantzen Portfolio',
+      url: new URL('/', baseUrl).href,
+    },
+    {
+      '@type': 'Person',
+      name: 'Sven Ingar Frantzen',
+      url: new URL('/', baseUrl).href,
+      jobTitle: 'Shopify & Fullstack Developer',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'BIBS',
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sven Ingar Frantzen Portfolio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={socialImageUrl.href} />
+    <meta property="og:image:alt" content="Sven Ingar Frantzen, Shopify and fullstack developer" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl.href} />
+    <meta name="twitter:image:alt" content="Sven Ingar Frantzen, Shopify and fullstack developer" />
+
+    {isHomepage && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+
+    <!-- Pages can add additional head elements here -->
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content"> Skip to main content </a>
+
+    <Header />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>
