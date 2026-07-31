@@ -29,6 +29,24 @@ textarea {
   font: inherit;
 }
 
+.theme-picker {
+  width: fit-content;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.theme-toggle::before {
+  content: '[ ';
+}
+
+.theme-toggle::after {
+  content: ' ]';
+}
+
 .theme-menu {
   z-index: 1;
   right: 0;
