@@ -1,41 +1,134 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
 <header class="site-header">
   <a class="site-logo blinking" href="/"> svenni.dev </a>
-  <div>
-    <nav>
+  <button
+    class="mobile-menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="site-menu"
+    aria-label="Open menu"
+  >
+    <span data-menu-label>menu</span>
+  </button>
+  <button class="menu-backdrop" type="button" tabindex="-1" aria-label="Close menu"></button>
+  <div class="site-header--menu" id="site-menu">
+    <nav class="header-nav">
       <ul>
         <li>
-          <a href="/">Home</a>
+          <a href="/" class="header-nav--link" aria-current={currentPath === '/' ? 'page' : undefined}>index</a>
         </li>
         <li>
-          <a href="/work/">Work</a>
+          <a href="/work/" class="header-nav--link" aria-current={currentPath.startsWith('/work/') ? 'page' : undefined}>work</a>
         </li>
         <li>
-          <a href="/work/">About</a>
+          <a href="/about/" class="header-nav--link" aria-current={currentPath.startsWith('/about/') ? 'page' : undefined}>about</a>
         </li>
       </ul>
     </nav>
     <div class="theme-picker">
-      <button
-        class="theme-toggle"
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded="false"
-        aria-controls="theme-menu"
-      >
-        Theme: Dark
-      </button>
+      <button class="theme-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu"> macchiato </button>
       <div class="theme-menu" id="theme-menu" role="menu" hidden>
-        <button type="button" role="menuitemradio" aria-checked="true" data-theme-value="dark">Dark</button>
-        <button type="button" role="menuitemradio" aria-checked="false" data-theme-value="light">Light</button>
-        <button type="button" role="menuitemradio" aria-checked="false" data-theme-value="system">System default</button>
+        <button class="theme-menu--button" type="button" role="menuitemradio" aria-checked="true" data-theme-value="dark">macchiato</button>
+        <button class="theme-menu--button" type="button" role="menuitemradio" aria-checked="false" data-theme-value="light">latte</button>
+        <button class="theme-menu--button" type="button" role="menuitemradio" aria-checked="false" data-theme-value="system">system</button>
       </div>
     </div>
   </div>
 </header>
 
 <script>
+  const mobileMenuToggle = document.querySelector<HTMLButtonElement>('.mobile-menu-toggle');
+  const mobileMenuLabel = mobileMenuToggle?.querySelector<HTMLElement>('[data-menu-label]');
+  const mobileMenuPanel = document.querySelector<HTMLElement>('#site-menu');
+  const mobileMenuBackdrop = document.querySelector<HTMLButtonElement>('.menu-backdrop');
+  const desktopMenu = window.matchMedia('(min-width: 48rem)');
+
+  const setMobileMenu = (open: boolean, restoreFocus = false) => {
+    if (!mobileMenuToggle || !mobileMenuPanel) return;
+
+    const shouldOpen = open && !desktopMenu.matches;
+
+    mobileMenuToggle.setAttribute('aria-expanded', String(shouldOpen));
+    mobileMenuToggle.setAttribute('aria-label', shouldOpen ? 'Close menu' : 'Open menu');
+    mobileMenuPanel.dataset.open = String(shouldOpen);
+    document.body.classList.toggle('menu-open', shouldOpen);
+
+    if (mobileMenuLabel) {
+      mobileMenuLabel.textContent = shouldOpen ? 'close' : 'menu';
+    }
+
+    if (desktopMenu.matches) {
+      mobileMenuPanel.inert = false;
+      mobileMenuPanel.removeAttribute('aria-hidden');
+    } else {
+      mobileMenuPanel.inert = !shouldOpen;
+      mobileMenuPanel.setAttribute('aria-hidden', String(!shouldOpen));
+    }
+
+    if (shouldOpen) {
+      requestAnimationFrame(() => mobileMenuPanel.querySelector<HTMLAnchorElement>('a')?.focus());
+    } else if (restoreFocus) {
+      mobileMenuToggle.focus();
+    }
+  };
+
+  mobileMenuToggle?.addEventListener('click', () => {
+    setMobileMenu(mobileMenuToggle.getAttribute('aria-expanded') !== 'true', true);
+  });
+
+  mobileMenuBackdrop?.addEventListener('click', () => setMobileMenu(false, true));
+
+  mobileMenuPanel?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMobileMenu(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (mobileMenuToggle?.getAttribute('aria-expanded') !== 'true' || !mobileMenuPanel) return;
+
+    if (event.key === 'Escape') {
+      if (mobileMenuPanel.querySelector('.theme-menu:not([hidden])')) return;
+
+      event.preventDefault();
+      setMobileMenu(false, true);
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = [
+      mobileMenuToggle,
+      ...Array.from(mobileMenuPanel.querySelectorAll<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])')).filter(
+        (element) => !element.closest('[hidden]') && !element.hasAttribute('disabled'),
+      ),
+    ];
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements.at(-1);
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement?.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement?.focus();
+    }
+  });
+
+  desktopMenu.addEventListener('change', () => setMobileMenu(false));
+  setMobileMenu(false);
+</script>
+
+<script>
   type Theme = 'dark' | 'light';
   type ThemePreference = Theme | 'system';
+
+  const themeLabels: Record<ThemePreference, string> = {
+    dark: 'macchiato',
+    light: 'latte',
+    system: 'system',
+  };
 
   const themePicker = document.querySelector<HTMLElement>('.theme-picker');
   const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
@@ -43,8 +136,7 @@
   const themeOptions = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-theme-value]'));
   const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
 
-  const resolveTheme = (preference: ThemePreference): Theme =>
-    preference === 'system' ? (systemTheme.matches ? 'light' : 'dark') : preference;
+  const resolveTheme = (preference: ThemePreference): Theme => (preference === 'system' ? (systemTheme.matches ? 'light' : 'dark') : preference);
 
   const setPreference = (preference: ThemePreference) => {
     const theme = resolveTheme(preference);
@@ -53,18 +145,14 @@
     document.documentElement.dataset.theme = theme;
 
     if (themeToggle) {
-      const label = preference === 'system' ? 'System default' : preference[0].toUpperCase() + preference.slice(1);
-      themeToggle.textContent = `Theme: ${label}`;
+      themeToggle.textContent = themeLabels[preference];
     }
 
     themeOptions.forEach((option) => {
       option.setAttribute('aria-checked', String(option.dataset.themeValue === preference));
     });
 
-    document.querySelector('meta[name="theme-color"]')?.setAttribute(
-      'content',
-      theme === 'dark' ? '#24273a' : '#eff1f5',
-    );
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#24273a' : '#eff1f5');
   };
 
   const closeMenu = () => {

@@ -111,10 +111,22 @@ const structuredData = {
 
     <Header />
 
-    <main id="main-content">
+    <main class="container" id="main-content">
       <slot />
     </main>
 
     <Footer />
+
+    <script is:inline>
+      document.querySelectorAll('.blinking').forEach((element) => {
+        if (!(element instanceof HTMLElement)) return;
+
+        const text = element.textContent?.trim() ?? '';
+
+        element.style.setProperty('--typing-width', `${element.scrollWidth}px`);
+        element.style.setProperty('--typing-steps', String(Math.max([...text].length, 1)));
+        element.dataset.typingReady = '';
+      });
+    </script>
   </body>
 </html>
