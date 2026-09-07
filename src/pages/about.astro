@@ -1,13 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Sven I. Frantzen | Shopify & Fullstack Developer';
+const title = 'About — Sven Ingar Frantzen';
+const description =
+  'Norwegian developer in Copenhagen, working in commerce since 2021. How I work, and what I have shipped.';
 
-const description = 'Sven Ingar Frantzen is a Shopify and fullstack developer building fast, accessible storefronts with Shopify Plus, Liquid, and GraphQL.';
+const prompt = 'sif@copenhagen:~$ cat about.md';
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="hero">
-    <h1>Work</h1>
+    <p class="hero-whoami terminal-prompt" style={`--typing-steps:${prompt.length}`}>{prompt}</p>
+    <h1 class="hero-name">about</h1>
   </section>
 </BaseLayout>

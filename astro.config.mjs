@@ -1,8 +1,10 @@
 import { defineConfig, fontProviders } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://svenni.dev",
   trailingSlash: "always",
+  integrations: [sitemap()],
   fonts: [
     {
       provider: fontProviders.local(),
@@ -24,9 +26,9 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       theme: {
-        light: 'catppuccin-latte',
-        dark: 'catppuccin-macchiato'
-      }
-    }
-  }
+        light: "catppuccin-latte",
+        dark: "catppuccin-macchiato",
+      },
+    },
+  },
 });

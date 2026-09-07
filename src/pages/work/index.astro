@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Work — Sven Ingar Frantzen';
+const description = 'Commerce, backend, performance and accessibility work by Sven Ingar Frantzen.';
+
+const prompt = 'sif@copenhagen:~$ ls -la ./work';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="hero">
+    <p class="hero-whoami terminal-prompt" style={`--typing-steps:${prompt.length}`}>{prompt}</p>
+    <h1 class="hero-name">work</h1>
+  </section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '404 — Sven Ingar Frantzen';
+const description = 'That page does not exist.';
+
+const prompt = 'sif@copenhagen:~$ cd ./nowhere';
+---
+
+<BaseLayout title={title} description={description} robots="noindex, follow">
+  <section class="hero">
+    <p class="hero-whoami terminal-prompt" style={`--typing-steps:${prompt.length}`}>{prompt}</p>
+    <h1 class="hero-name">404</h1>
+    <p class="hero-role">No such file or directory.</p>
+    <p><a href="/">back to index</a></p>
+  </section>
+</BaseLayout>

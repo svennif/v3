@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://svenni.dev/sitemap.xml
+
+Sitemap: https://svenni.dev/sitemap-index.xml

@@ -11,7 +11,7 @@ interface Props {
   robots?: string;
 }
 
-const { title, description, image = '/assets/sven-ingar-frantzen.avif', robots = 'index, follow' } = Astro.props;
+const { title, description, image = '/assets/images/og-default.jpg', robots = 'index, follow' } = Astro.props;
 
 const baseUrl = Astro.site ?? Astro.url.origin;
 
@@ -64,12 +64,7 @@ const structuredData = {
           // Keep dark mode as the default if storage is unavailable.
         }
 
-        const theme =
-          preference === 'system'
-            ? matchMedia('(prefers-color-scheme: light)').matches
-              ? 'light'
-              : 'dark'
-            : preference;
+        const theme = preference === 'system' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : preference;
 
         document.documentElement.dataset.themePreference = preference;
         document.documentElement.dataset.theme = theme;
@@ -92,6 +87,9 @@ const structuredData = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:image" content={socialImageUrl.href} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Sven Ingar Frantzen, Shopify and fullstack developer" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -116,17 +114,5 @@ const structuredData = {
     </main>
 
     <Footer />
-
-    <script is:inline>
-      document.querySelectorAll('.blinking').forEach((element) => {
-        if (!(element instanceof HTMLElement)) return;
-
-        const text = element.textContent?.trim() ?? '';
-
-        element.style.setProperty('--typing-width', `${element.scrollWidth}px`);
-        element.style.setProperty('--typing-steps', String(Math.max([...text].length, 1)));
-        element.dataset.typingReady = '';
-      });
-    </script>
   </body>
 </html>

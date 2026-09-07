@@ -3,14 +3,8 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="site-header">
-  <a class="site-logo blinking" href="/"> svenni.dev </a>
-  <button
-    class="mobile-menu-toggle"
-    type="button"
-    aria-expanded="false"
-    aria-controls="site-menu"
-    aria-label="Open menu"
-  >
+  <a class="site-logo" href="/">svenni.dev</a>
+  <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
     <span data-menu-label>menu</span>
   </button>
   <button class="menu-backdrop" type="button" tabindex="-1" aria-label="Close menu"></button>
@@ -98,12 +92,7 @@ const currentPath = Astro.url.pathname;
 
     if (event.key !== 'Tab') return;
 
-    const focusableElements = [
-      mobileMenuToggle,
-      ...Array.from(mobileMenuPanel.querySelectorAll<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])')).filter(
-        (element) => !element.closest('[hidden]') && !element.hasAttribute('disabled'),
-      ),
-    ];
+    const focusableElements = [mobileMenuToggle, ...Array.from(mobileMenuPanel.querySelectorAll<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])')).filter((element) => !element.closest('[hidden]') && !element.hasAttribute('disabled'))];
     const firstElement = focusableElements[0];
     const lastElement = focusableElements.at(-1);
 
