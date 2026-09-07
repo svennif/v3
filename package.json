@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/svennif/v3#readme",
   "dependencies": {
-    "astro": "^7.1.6"
+    "astro": "^7.3.1"
   }
 }

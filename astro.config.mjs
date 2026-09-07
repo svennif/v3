@@ -1,6 +1,5 @@
 import { defineConfig, fontProviders } from "astro/config";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://svenni.dev",
   trailingSlash: "always",
@@ -9,22 +8,13 @@ export default defineConfig({
       provider: fontProviders.local(),
       name: "JetBrains Mono",
       cssVariable: "--font-jetbrains-mono",
-      fallbacks: ["monospace"],
+      fallbacks: ["ui-monospace", "SFMono-Regular", "monospace"],
+      display: "swap",
       options: {
         variants: [
           {
-            src: ["./src/assets/fonts/JetBrainsMono-Regular.ttf"],
-            weight: 400,
-            style: "normal",
-          },
-          {
-            src: ["./src/assets/fonts/JetBrainsMono-Medium.ttf"],
-            weight: 500,
-            style: "normal",
-          },
-          {
-            src: ["./src/assets/fonts/JetBrainsMono-Bold.ttf"],
-            weight: 700,
+            src: ["./src/assets/fonts/JetBrainsMono[wght].woff2"],
+            weight: "100 800",
             style: "normal",
           },
         ],
