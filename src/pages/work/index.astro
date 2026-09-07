@@ -1,15 +1,105 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const title = 'Work — Sven Ingar Frantzen';
 const description = 'Commerce, backend, performance and accessibility work by Sven Ingar Frantzen.';
 
 const prompt = 'sif@copenhagen:~$ ls -la ./work';
+
+const entries = (await getCollection('work')).sort((a, b) => b.data.year - a.data.year || b.data.order - a.data.order);
+
+// Group by year, newest first.
+const years = [...new Set(entries.map((e) => e.data.year))].sort((a, b) => b - a);
+
+// Only offer filters that actually match something.
+const categories = ['commerce', 'backend', 'performance', 'accessibility'].filter((c) => entries.some((e) => e.data.category === c));
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="hero">
     <p class="hero-whoami terminal-prompt" style={`--typing-steps:${prompt.length}`}>{prompt}</p>
     <h1 class="hero-name">work</h1>
+    <p class="hero-intro">Everything I have shipped that I can talk about publicly. Internal tools are listed without links &mdash; happy to walk through them in a call.</p>
   </section>
+
+  {
+    categories.length > 1 && (
+      <div class="filters" role="group" aria-label="Filter work by category">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">
+          all
+        </button>
+        {categories.map((c) => (
+          <button class="filter" type="button" data-filter={c} aria-pressed="false">
+            {c}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  <div class="work-list">
+    {
+      years.map((year) => (
+        <section class="work-year" data-year={year}>
+          <h2 class="work-year--label">{year}</h2>
+          <ul>
+            {entries
+              .filter((e) => e.data.year === year)
+              .map((e) => (
+                <li class="work-item" data-category={e.data.category}>
+                  {e.data.internal ? (
+                    <div class="work-item--head">
+                      <h3>{e.data.title}</h3>
+                      <span class="work-badge">[internal]</span>
+                    </div>
+                  ) : (
+                    <a class="work-item--head" href={`/work/${e.id}/`}>
+                      <h3>{e.data.title}</h3>
+                      {e.data.archived && <span class="work-badge">[archived]</span>}
+                      <span class="work-item--arrow" aria-hidden="true">
+                        &rarr;
+                      </span>
+                    </a>
+                  )}
+                  <p class="work-item--summary">{e.data.summary}</p>
+                  <p class="work-item--tags">{e.data.tags.join(' · ')}</p>
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <p class="work-empty" hidden>No work in that category yet.</p>
 </BaseLayout>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const items = document.querySelectorAll<HTMLElement>('.work-item');
+  const yearGroups = document.querySelectorAll<HTMLElement>('.work-year');
+  const empty = document.querySelector<HTMLElement>('.work-empty');
+
+  const apply = (value: string) => {
+    items.forEach((item) => {
+      item.hidden = value !== 'all' && item.dataset.category !== value;
+    });
+
+    // Hide a year heading once every item under it is filtered out.
+    yearGroups.forEach((group) => {
+      group.hidden = !group.querySelector<HTMLElement>('.work-item:not([hidden])');
+    });
+
+    if (empty) {
+      empty.hidden = Boolean(document.querySelector('.work-item:not([hidden])'));
+    }
+  };
+
+  filters.forEach((button) => {
+    button.addEventListener('click', () => {
+      filters.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      apply(button.dataset.filter ?? 'all');
+    });
+  });
+</script>

@@ -1,0 +1,94 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'work'>;
+  prev?: CollectionEntry<'work'>;
+  next?: CollectionEntry<'work'>;
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+
+const title = `${d.title} — Sven Ingar Frantzen`;
+
+const meta = [
+  ['role', d.role],
+  ['team', d.team],
+  ['timeline', d.timeline],
+  ['stack', d.stack.join(', ')],
+  ['status', d.status],
+].filter((row): row is [string, string] => Boolean(row[1]));
+---
+
+<BaseLayout title={title} description={d.summary}>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/work/">&larr; work</a>
+    <span aria-hidden="true">/</span>
+    <span>{entry.id}</span>
+  </nav>
+
+  <article class="case">
+    <h1 class="case-title">{d.title}</h1>
+    <p class="case-lede">{d.lede}</p>
+
+    <dl class="case-meta">
+      {
+        meta.map(([label, value]) => (
+          <div class="case-meta--row">
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {
+      d.results && d.results.length > 0 && (
+        <section class="results" aria-labelledby="results-heading">
+          <div class="section-head">
+            <h2 id="results-heading">results</h2>
+            {d.measurement && <p class="section-note">{d.measurement}</p>}
+          </div>
+          <ul class="results-grid">
+            {d.results.map((r) => (
+              <li class="result">
+                <p class="result-label">{r.label}</p>
+                <p class="result-value">{r.value}</p>
+                {r.before && <p class="result-before">was {r.before}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="case-body">
+      <slot />
+    </div>
+  </article>
+
+  {
+    (prev || next) && (
+      <nav class="case-pager" aria-label="More work">
+        <div>
+          {prev && (
+            <a href={`/work/${prev.id}/`}>
+              <span class="case-pager--dir">&larr; previous</span>
+              <span class="case-pager--title">{prev.data.title}</span>
+            </a>
+          )}
+        </div>
+        <div class="case-pager--next">
+          {next && (
+            <a href={`/work/${next.id}/`}>
+              <span class="case-pager--dir">next &rarr;</span>
+              <span class="case-pager--title">{next.data.title}</span>
+            </a>
+          )}
+        </div>
+      </nav>
+    )
+  }
+</BaseLayout>
